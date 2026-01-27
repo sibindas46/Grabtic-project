@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<main class="main">
+
+  <section class="section"
+           style="padding-top:120px; position:relative; background-color:#0c0c0c; color:white;">
+
+    <!-- Background image -->
+    <img src="https://picsum.photos/1200/400?blur"
+         style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.2;">
+
+    <div class="container position-relative" style="z-index:1; padding-top:40px;">
+
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+
+          <div class="card bg-dark text-white border-secondary">
+            <div class="card-body">
+
+              <h3 class="text-center mb-4">
+                <i class="fa-solid fa-ticket me-2"></i>Confirm Booking
+              </h3>
+
+              <hr class="border-secondary">
+
+              <!-- Theatre -->
+              <div class="d-flex justify-content-between mb-3">
+                <span class="text-white">Theatre</span>
+                <strong>{{payment.booking.screen_date_time.theatre.name}}</strong>
+              </div>
+
+              <!-- Screen -->
+              <div class="d-flex justify-content-between mb-3">
+                <span class="text-white">Screen</span>
+                <strong>{{payment.booking.screen_date_time.screen.name}}</strong>
+              </div>
+
+              <!-- Movie -->
+              <div class="d-flex justify-content-between mb-3">
+                <span class="text-white">Movie</span>
+                <strong>{{payment.booking.movie.name}}</strong>
+              </div>
+
+              <!-- Date & Time -->
+              <div class="d-flex justify-content-between mb-3">
+                <span class="text-white">Show Time</span>
+                <strong>
+                  {{payment.booking.screen_date_time.date.date | date:'Y-m-d'}}
+                  {{payment.booking.screen_date_time.time.time| time:'h:i A'}}
+                </strong>
+              </div>
+
+              <hr class="border-secondary">
+
+              <!-- Seats -->
+              <div class="mb-3">
+                <span class="text-white">Selected Seats</span>
+                <div class="mt-2">
+                    {% for seat in payment.booking.seats.all %}
+                    <span class="badge bg-secondary me-1 mb-1">
+                      {{seat.row}}-{{seat.seat_num}}
+                    </span>
+                    {% endfor %}
+                  
+                </div>
+              </div>
+
+              <hr class="border-secondary">
+
+              <!-- Total -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <span class="fs-5">Total Amount</span>
+                <span class="fs-4 text-success fw-bold">
+                  ₹{{ payment.amount }}
+                </span>
+              </div>
+
+              <!-- Confirm Button -->
+
+                <a href="{% url 'razorpay' payment.uuid %}" class="btn btn-success w-100 btn-lg">
+                  Confirm & Pay
+                </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+{% endblock %}

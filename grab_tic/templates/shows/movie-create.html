@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block main%}
+
+  <main class="main">
+
+ <section id="hero" class="hero section dark-background">
+
+      <img src="/static/assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
+
+      <div class="container d-flex flex-column align-items-center">
+        
+                 <div class="col-lg-6">
+            <form action="" method="post" data-aos="fade-up" data-aos-delay="500" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <!-- <input type="text" name="name" class="form-control" placeholder="Movie Name" required=""> -->
+                   {{form.name}}
+                   {% if form.name.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.name.errors.0}}</p>
+                   {% endif %}
+                </div>
+
+                
+                <div class="col-md-6 ">
+                  <!-- <input type="file" class="form-control" name="photo" placeholder="Movie Banner" required=""> -->
+                   {{form.photo}}
+                   {% if form.photo.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.photo.errors.0}}</p>
+                   {% endif %}
+                </div>
+
+                <div class="col-md-12">
+                  <!-- <textarea class="form-control" name="description" rows="4" placeholder="Movie Description" required=""></textarea> -->
+                  {{form.description}}
+                  {% if form.description.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.description.errors.0}}</p>
+                   {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <!-- <input type="time" class="form-control" name="runtime" placeholder="Runtime" required=""> -->
+                  {{form.runtime}}
+                  {% if form.runtime.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.runtime.errors.0}}</p>
+                   {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <!-- <input type="date" class="form-control" name="release_date" placeholder="Date" required=""> -->
+                  {{form.release_date}}
+                  {% if form.release_date.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.release_date.errors.0}}</p>
+                   {% endif %}
+                </div>
+                
+                <div class="col-md-6">
+                  <!-- <select class="form-select" name="certificate" id="">
+                    {% for certificate in certificate_choices %}
+                    <option value="{{certificate.value}}">{{certificate.label}}</option>
+                    {% endfor %}
+                  </select> -->
+                  {{form.certificate}}
+                  {% if form.certificate.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.certificate.errors.0}}</p>
+                   {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <!-- <select class="form-select" name="language" id="" multiple>
+                    {% for language in languages_choices %}
+                    <option value="{{language.value}}">{{language.label}}</option>
+                    {% endfor %}
+                  </select> -->
+                  {{form.language}}
+                  {% if form.language.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.language.errors.0}}</p>
+                   {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <!-- <select class="form-select" name="genre" id="" multiple>
+                    {% for genre in genre_choices %}
+                    <option value="{{genre.value}}">{{genre.label}}</option>
+                    {% endfor %}
+                  </select> -->
+                  {{form.genre}}
+                  {% if form.genre.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.genre.errors.0}}</p>
+                   {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <!-- <select class="form-select" name="cast" id="" multiple>
+                    {% for cast in cast_choices %}
+                    <option value="{{cast.value}}">{{cast.label}}</option>
+                    {% endfor %}
+                  </select> -->
+                  {{form.cast}}
+                  {% if form.cast.errors %}
+                   <p class="small" style="font-size: 15px;text-shadow: 0px 0px 5px black;color: #ff0000;">{{form.cast.errors.0}}</p>
+                   {% endif %}
+                </div>
+                <div class="col-md-12 text-center">
+
+                  <button type="submit" style="color: #ffffff; background-color: #ff4a17; border: 0px;padding: 10px 30px; transition: 0.4s;border-radius: 50px;">Create</button>
+                </div>
+
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+      </div>
+
+    </section>
+
+  </main>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <main class="main">
+
+    <!-- Theatre Shows Section -->
+    <section class="section" style="padding-top:120px; position:relative;background-color:#0c0c0c; color:white;">
+
+      <!-- Background image -->
+      <img src="https://picsum.photos/1200/400?blur"
+           style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.2;">
+
+      <div class="container position-relative" style="z-index:1; padding-top:40px;">
+
+          <!-- Date Slider -->
+          <div class="row mb-4">
+            <div class="col-md-10 mx-auto">
+              <div class="d-flex overflow-auto">
+                {% for day in all_dates %}
+                <a href="{% url 'theatre-list' movie.uuid %}?date={{day.date|date:'Y-m-d'}}" class="btn btn-outline-light mx-2 {% if day.date == date %} active {% endif %}">{{day.date|date:"M d"}}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Theatre Shows List -->
+          <!-- Theatre 1 -->
+          {% for theatre,screens in theatres_screens_times.items %}
+          <div class="row g-3 justify-content-center my-4">
+            <div class="col-md-10">
+              <div class="card bg-dark text-white border-secondary">
+                <div class="card-body">
+                  <h4 class="mb-3"><i class="fa-solid fa-film me-2"></i>{{theatre.name}}</h4>
+
+                  <!-- Screen 1 -->
+                  {% for screen,times in screens.items%}
+                  <div class="mb-3">
+                    <h6 class="text-warning">{{screen.name}}</h6>
+                    <div class="d-flex flex-wrap">
+                      {% for time in times %}
+                      {% get_screen_date_time_uuid screen date time as s_d_t_uuid %}
+                      <a href="{% url 'screen-seats' screen.uuid movie.uuid  s_d_t_uuid %}" class="btn btn-outline-light btn-sm m-1">{{time.time|time:'h:i A'}}</a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endfor %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+
+      </div>
+
+    </section>
+  </main>
+{% endblock %}
