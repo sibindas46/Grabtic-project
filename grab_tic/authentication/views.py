@@ -173,7 +173,7 @@ class PhoneOTPView(View):
 
 class SignUpView(View):
 
-    template = 'authentication/Signup.html'
+    template = 'authentication/signup.html'
 
     form_class = SignUpPhoneForm
 
