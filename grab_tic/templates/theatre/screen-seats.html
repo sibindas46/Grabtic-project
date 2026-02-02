@@ -32,6 +32,7 @@
             {% if seat.seat_num <= 5 %}
             <label style="margin: 0 4px; cursor: pointer;">
               <input type="checkbox" name="selected_seats" value="{{seat.uuid}}" style="display: none;">
+              {% movie_booked movie screen_date_time seat as booked %}
               <span class="seat-box" {% if booked %} style="background-color: #606060; border-color: #3d3d3d; color: #cacaca;" disabled {% endif %}>
                 {{ seat.seat_num }}
               </span>

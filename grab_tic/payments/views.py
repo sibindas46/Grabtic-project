@@ -11,8 +11,19 @@ from decouple import config
 from django.utils import timezone
 
 from django.contrib import messages
+
+from django.template.loader import render_to_string
+
+from weasyprint import HTML
+
+from django.http import HttpResponse
+
+from django.utils.decorators import method_decorator
+
+from authentication.permissions import user_role_permission
 # Create your views here.
 
+@method_decorator(user_role_permission(roles=['User'],redirect_url='home'),name='dispatch')
 class RazorpayView(View):
 
     template = 'payments/razorpay.html'
@@ -37,6 +48,7 @@ class RazorpayView(View):
 
         return render(request,self.template,context=data)
     
+@method_decorator(user_role_permission(roles=['User'],redirect_url='home'),name='dispatch')
 
 class PaymentVerifyView(View):
 
@@ -84,7 +96,7 @@ class PaymentVerifyView(View):
 
             messages.success(request,'Movie tickets Successfully Booked')
 
-
+            return redirect('ticket',uuid=transaction.uuid)
 
 
 
@@ -102,8 +114,53 @@ class PaymentVerifyView(View):
 
             transaction.payment.save()
 
-        
 
 
+   
         return redirect('home')
+    
+@method_decorator(user_role_permission(roles=['User'],redirect_url='home'),name='dispatch')
+class TicketView(View):
+
+    template = 'payments/ticket.html'
+
+    def get(self,request,*args,**kwargs):
+
+        uuid = kwargs.get('uuid')
+
+        transactions = Transactions.objects.get(uuid=uuid)
+
+        data = {'transaction':transactions}
+
+        return render(request,self.template,context=data)
+    
+@method_decorator(user_role_permission(roles=['User'],redirect_url='home'),name='dispatch')
+
+class TicketPDFGenerate(View):
+    
+    
+
+    def get(self,request,*args,**kwargs):
+
+        uuid = kwargs.get('uuid')
+
+        transactions = Transactions.objects.get(uuid=uuid)
+
+        data = {'transaction':transactions}
+
+        template = 'payments/ticket-pdf.html'
+
+        content = render_to_string(template,data)
+
+        pdf = HTML(string=content,base_url='/')
+
+        response = HttpResponse(content_type='application/pdf')
+
+        response['Content-Disposition'] = f'inline; filename="{transactions.payment.booking.profile.first_name}-{transactions.payment.booking.movie.name}-tickets.pdf"'
+                
+
+        pdf.write_pdf(response)
+
+        return response
+
     
